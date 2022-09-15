@@ -1,7 +1,9 @@
 package main
 
 import (
-	"fmt"
+	"gopkg.in/yaml.v3"
+	"log"
+	"os"
 	"strings"
 )
 
@@ -12,15 +14,25 @@ type Question struct {
 	Difficulty int    `yaml:"difficulty"`
 }
 
+type Questions []Question
+
 func newQuestion(topic string, text string, answer string, difficulty int) *Question {
 	if difficulty < 1 || difficulty > 5 {
-		panic("NewQuestion: difficulty must be int 1 to 5")
+		log.Fatal("NewQuestion: difficulty must be int 1 to 5")
 	}
 	return &Question{Topic: topic, Text: text, Answer: answer, Difficulty: difficulty}
 }
 
-func (q *Question) print() {
-	fmt.Print(q.Text, ": ")
+func (q *Questions) parseData() *Questions {
+	file, err := os.ReadFile("data.yaml")
+	if err != nil {
+		log.Fatal("ReadFile failed: ", err)
+	}
+	err = yaml.Unmarshal(file, q)
+	if err != nil {
+		log.Fatal("Unmarshal failed: ", err)
+	}
+	return q
 }
 
 func (q *Question) checkAnswer(input string) bool {

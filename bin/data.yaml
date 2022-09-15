@@ -1,0 +1,46 @@
+---
+
+# Tips:
+# - text stands for question text
+# - do not add punctuation to end of question
+# - difficulty must be an int between 1 and 5
+# - answers are case-insensitive
+# - all fields are mandatory
+# - pull requests welcome
+
+-
+  topic: math
+  text: 5 + 5
+  answer: 10
+  difficulty: 1
+-
+  topic: math
+  text: 7 * 7
+  answer: 49
+  difficulty: 1
+-
+  topic: geography
+  text: Capital of France
+  answer: Paris
+  difficulty: 1
+-
+  topic: history
+  text: End of World War I
+  answer: 1918
+  difficulty: 2
+-
+  topic: history
+  text: Nazi secret police
+  answer: Gestapo
+  difficulty: 3
+-
+  topic: trivia
+  text: Spanish for money
+  answer: dinero
+  difficulty: 2
+-
+  topic: compsci
+  text: Number of bits in byte
+  answer: 8
+  difficulty: 1
+...
