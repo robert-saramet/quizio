@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	var input, incorrect string
+	var input, incorrectModif string
 	question := newQuestion("math", "5 + 5", "10", 1)
 
 	fmt.Print(question.Text, ": ")
@@ -15,8 +15,8 @@ func main() {
 		log.Fatal("Scanln failed: ", err)
 	}
 	if !question.checkAnswer(input) {
-		incorrect = "in"
+		incorrectModif = "in"
 	}
 
-	fmt.Print("Your answer is ", incorrect, "correct")
+	fmt.Print("Your answer is ", incorrectModif, "correct")
 }
