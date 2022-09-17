@@ -23,15 +23,11 @@ func newQuestion(topic string, text string, answer string, difficulty int) *Ques
 	return &Question{Topic: topic, Text: text, Answer: answer, Difficulty: difficulty}
 }
 
-func (q *Questions) parseData() *Questions {
+func (q *Questions) load() *Questions {
 	file, err := os.ReadFile("data.yaml")
-	if err != nil {
-		log.Fatal("ReadFile failed: ", err)
-	}
+	handle(err, "os.ReadFile")
 	err = yaml.Unmarshal(file, q)
-	if err != nil {
-		log.Fatal("Unmarshal failed: ", err)
-	}
+	handle(err, "yaml.Unmarshal")
 	return q
 }
 
