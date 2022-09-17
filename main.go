@@ -2,49 +2,25 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"os/exec"
-	"os/signal"
-	"runtime"
-	"syscall"
 )
 
+var input, username, incorrectModif, clearCmd string
+var questions Questions
+var player Player
+var cli CLI
+
 func main() {
-	var input, incorrectModif, clearCmd string
-	var questions Questions
+	questions.load()
 
-	// load questions from yaml
-	questions.parseData()
-
-	// run os specific clear command
-	if runtime.GOOS == "windows" {
-		clearCmd = "cls"
-	} else {
-		clearCmd = "clear"
-	}
-	cmd := exec.Command(clearCmd)
-	cmd.Stdout = os.Stdout
-	cmd.Run()
-
-	fmt.Print("Press 'CTRL+C' to quit\n\n")
-
-	// Handle SIGTERM gracefully
-	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		<-c
-		os.Exit(1)
-	}()
+	defer cli.exit()
+	cli.init()
+	cli.initPlayer()
 
 	// loop through the questions
 	for _, question := range questions {
 		fmt.Print(question.Text, ": ")
 
-		_, err := fmt.Scanln(&input)
-		if err != nil {
-			log.Fatal("Scanln failed: ", err)
-		}
+		input = cli.read()
 
 		incorrectModif = ""
 		if !question.checkAnswer(input) {

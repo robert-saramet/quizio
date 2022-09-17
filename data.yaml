@@ -1,6 +1,7 @@
 ---
 
 # Tips:
+# - this file must be in your program folder
 # - text stands for question text
 # - do not add punctuation to end of question
 # - difficulty must be an int between 1 and 5
