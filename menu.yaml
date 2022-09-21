@@ -1,0 +1,24 @@
+base:
+  - 0) Return
+  - 1) Change name
+  - 2) Select classic/endless mode
+  - 3) Toggle learning mode
+  - 4) Change difficulty
+name:
+  - 'Enter new name: '
+confirmName:
+  - 0) Return
+  - 'Enter: Confirm'
+mode:
+  - 0) Return
+  - 1) Classic
+  - 2) Endless
+learning:
+  - 0) Return
+  - 1) True
+  - 2) False
+difficulty:
+  - 'Enter difficulty range [1-5]: '
+confirmDifficulty:
+  - 0) Return
+  - 'Enter: confirm'

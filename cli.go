@@ -34,7 +34,8 @@ func (c *CLI) init() {
 		c.exit()
 	}()
 	c.clear()
-	c.menu = c.initMenu()
+	menu := new(Menu)
+	c.menu = menu.load()
 }
 
 func (c *CLI) clear() {
@@ -53,12 +54,18 @@ func (c *CLI) clear() {
 func (c *CLI) read() (input string) {
 	_, err := fmt.Scanln(&input)
 	if err != nil {
+		message := ""
 		if err.Error() == "expected newline" {
-			stdin := bufio.NewReader(os.Stdin)
+			message = "Try again without spaces please: "
 			// flush stdin before retrying
+			stdin := bufio.NewReader(os.Stdin)
 			_, err = stdin.ReadString('\n')
 			handle(err, "ReadString")
-			fmt.Print("Try again without spaces please: ")
+		} else if err.Error() == "unexpected newline" {
+			message = "Try again please: "
+		}
+		if message != "" {
+			fmt.Print(message)
 			input = c.read()
 			return
 		} else {
@@ -76,8 +83,7 @@ func (c *CLI) readKey() (char string) {
 	numRead, err := t.Read(bytes)
 	handle(err, "term.Read")
 	if numRead == 1 {
-		ascii := int(bytes[0])
-		char = string(ascii)
+		char = string(bytes[0])
 	}
 	err = t.Restore()
 	handle(err, "term.Restore")
@@ -106,7 +112,7 @@ func (c *CLI) cursor(on bool) {
 func (c *CLI) initPlayer() {
 	fmt.Print("Welcome, please enter your username: ")
 	username = c.read()
-	filename := username + ".conf"
+	filename := username + ".yaml"
 	if _, err := os.Stat(filename); errors.Is(err, os.ErrNotExist) {
 		fmt.Print("Player data not found, let's create it now")
 		for i := 0; i < 3; i++ {
@@ -130,7 +136,7 @@ func (c *CLI) initPlayer() {
 			}
 		}
 	}
-	c.player.write(filename)
+	c.player.write(c.player.Name + ".yaml")
 	c.cursor(true)
 	c.clear()
 }
@@ -154,16 +160,6 @@ func (c *CLI) exit() {
 	fmt.Println("See you around!")
 	c.cursor(true)
 	os.Exit(0)
-}
-
-type Menu struct {
-	Base              []string
-	Name              []string
-	ConfirmName       []string
-	Mode              []string
-	Learning          []string
-	Difficulty        []string
-	ConfirmDifficulty []string
 }
 
 func (c *CLI) initMenu() *Menu {
@@ -202,109 +198,98 @@ func (c *CLI) initMenu() *Menu {
 		mode, learning, difficulty, confirmDifficulty}
 }
 
-func (c *CLI) printMenu(propName string) {
-	submenu := reflect.ValueOf(c.menu).Elem().
-		FieldByName(propName).Interface().([]string)
-
-	var key string
-
-	if propName != "Name" && propName != "Difficulty" {
-		c.clear()
-		if propName != "Base" {
-			fmt.Println(c.temp)
-		}
-		for _, item := range submenu {
-			fmt.Println(item)
-		}
-		key = c.readKey()
-		if propName == "ConfirmName" || propName == "ConfirmDifficulty" {
-			//fmt.Println(propName[8:], c.temp)
-		} else {
-			id, _ := strconv.Atoi(key)
-			if id >= len(submenu) {
-				c.printMenu(propName)
-				return
-			}
-			c.temp = (submenu[id])[3:]
-		}
+func (c *CLI) printKeyMenu(submenu []string, property string) {
+	if property != "base" {
+		fmt.Println(c.temp)
+	}
+	for _, item := range submenu {
+		fmt.Println(item)
 	}
 	c.cursor(false)
-	if c.temp == "Return" {
-		c.temp = ""
-	}
-
-	switch propName {
-	case "Base":
-		switch key {
-		case "0":
+	key := c.readKey()
+	id, _ := strconv.Atoi(key)
+	if id == 0 {
+		if property == "base" {
+			c.temp = "EXIT"
 			return
-		case "1":
-			c.printMenu("Name")
-		case "2":
-			c.printMenu("Mode")
-		case "3":
-			c.printMenu("Learning")
-		case "4":
-			c.printMenu("Difficulty")
 		}
-	case "Name":
-		c.clear()
-		fmt.Print(submenu[0])
-		c.cursor(true)
-		c.temp = c.read()
-		c.cursor(false)
-		c.printMenu("ConfirmName")
-	case "ConfirmName":
+	} else if id < len(submenu) {
+		if property == "mode" {
+			c.player.DefaultMode = submenu[id][3:]
+		} else if property == "learning" {
+			val, _ := strconv.ParseBool(submenu[id][3:])
+			c.player.DefaultLearning = val
+		} else if property == "base" {
+			c.temp = (submenu[id])[3:]
+			paths := []string{"Base", "Name", "Mode", "Learning", "Difficulty"}
+			c.printMenu(paths[id])
+		}
+	} else {
+		// print current menu
+		c.printMenu(fmt.Sprint(strings.ToUpper(property[:1]), property[1:]))
+	}
+	c.printMenu("Base")
+}
+
+func (c *CLI) printConfirmMenu(submenu []string, property string) {
+	fmt.Print("Confirm ", property, ": ", c.temp, "\n")
+	for _, item := range submenu {
+		fmt.Println(item)
+	}
+	key := c.readKey()
+	if property == "name" {
 		if key == "\n" {
 			c.player.Name = c.temp
 		} else if key == "0" {
 			c.printMenu("Base")
 		} else {
-			c.printMenu(propName)
+			c.printMenu("ConfirmName")
 		}
-		c.temp = ""
-		c.printMenu("Base")
-	case "Mode":
-		switch key {
-		case "0":
-			c.printMenu("Base")
-		case "1":
-			c.player.DefaultMode = "Classic"
-		case "2":
-			c.player.DefaultMode = "Endless"
-		}
-		c.printMenu("Base")
-	case "Learning":
-		switch key {
-		case "0":
-			c.printMenu("Base")
-		case "1":
-			c.player.DefaultLearning = true
-		case "2":
-			c.player.DefaultLearning = false
-		}
-		c.printMenu("Base")
-	case "Difficulty":
-		c.clear()
-		fmt.Print(submenu[0])
-		c.cursor(true)
-		c.temp = c.read()
-		c.cursor(false)
-		c.printMenu("ConfirmDifficulty")
-	case "ConfirmDifficulty":
-		fmt.Println(fmt.Sprint("New difficulty: ", c.temp))
+	} else if property == "difficulty" {
 		if key == "\n" {
 			c.player.DefaultDifficulty = c.temp
 		} else if key == "0" {
 			c.printMenu("Base")
 		} else {
-			c.printMenu(propName)
+			c.printMenu("ConfirmDifficulty")
 		}
-		c.temp = ""
-		c.printMenu("Base")
 	}
+	c.printMenu("Base")
+}
+
+func (c *CLI) printTextMenu(submenu []string) {
+	fmt.Print(submenu[0])
 	c.cursor(true)
-	return
+	c.temp = c.read()
+	c.cursor(false)
+}
+
+func (c *CLI) printMenu(propName string) {
+	submenu := reflect.ValueOf(c.menu).Elem().
+		FieldByName(propName).Interface().([]string)
+	c.clear()
+	if c.temp == "EXIT" {
+		c.cursor(true)
+		return
+	}
+	switch propName {
+	case "Base":
+		c.printKeyMenu(submenu, "base")
+	case "Name":
+		c.printTextMenu(submenu)
+		c.printMenu("ConfirmName")
+	case "ConfirmName":
+		c.printConfirmMenu(submenu, "name")
+	case "Mode":
+		c.printKeyMenu(submenu, "mode")
+	case "Learning":
+		c.printKeyMenu(submenu, "learning")
+	case "Difficulty":
+		c.printTextMenu(submenu)
+		c.printMenu("ConfirmDifficulty")
+	case "ConfirmDifficulty":
+		c.printConfirmMenu(submenu, "difficulty")
+	}
 }
 
 func handle(err error, function string) {
