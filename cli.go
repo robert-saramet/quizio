@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"github.com/pkg/term"
 	"log"
@@ -10,17 +9,14 @@ import (
 	"os/exec"
 	"os/signal"
 	"reflect"
-	"runtime"
 	"strconv"
 	"strings"
 	"syscall"
-	"time"
 )
 
 type CLI struct {
-	menu   *Menu
-	player *Player
-	temp   string
+	temp  string
+	score int
 }
 
 func (c *CLI) init() {
@@ -34,17 +30,10 @@ func (c *CLI) init() {
 		c.exit()
 	}()
 	c.clear()
-	menu := new(Menu)
-	c.menu = menu.load()
 }
 
 func (c *CLI) clear() {
-	if runtime.GOOS == "windows" {
-		clearCmd = "cls"
-	} else {
-		clearCmd = "clear"
-	}
-	cmd := exec.Command(clearCmd)
+	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	err := cmd.Run()
 	handle(err, "cmd.Run")
@@ -109,45 +98,13 @@ func (c *CLI) cursor(on bool) {
 	handle(err, "Fprintf")
 }
 
-func (c *CLI) initPlayer() {
-	fmt.Print("Welcome, please enter your username: ")
-	username = c.read()
-	filename := username + ".yaml"
-	if _, err := os.Stat(filename); errors.Is(err, os.ErrNotExist) {
-		fmt.Print("Player data not found, let's create it now")
-		for i := 0; i < 3; i++ {
-			fmt.Print(".")
-			time.Sleep(time.Second / 3)
-		}
-		c.player = c.newPlayer()
-	} else {
-		fmt.Println("Player data found, loading...")
-		c.player = player.load(filename)
-		c.cursor(false)
-		fmt.Print("Would you like to change your settings? [y/n] ")
-		for {
-			key := c.readKey()
-			key = strings.ToLower(key)
-			if key == "y" {
-				c.printMenu("Base")
-				break
-			} else if key == "n" {
-				break
-			}
-		}
-	}
-	c.player.write(c.player.Name + ".yaml")
-	c.cursor(true)
-	c.clear()
-}
-
 func (c *CLI) newPlayer() *Player {
 	newPlayer := player.make()
-	c.player = newPlayer
+	player = *newPlayer
 	for {
 		c.printMenu("Base")
-		if c.player.Name != "" && c.player.DefaultMode != "" && c.player.DefaultDifficulty != "" {
-			return c.player
+		if player.Name != "" && player.Mode != "" && player.Difficulty != "" {
+			return &player
 		} else {
 			c.temp = "Please configure all settings"
 			c.printMenu("Base")
@@ -160,42 +117,6 @@ func (c *CLI) exit() {
 	fmt.Println("See you around!")
 	c.cursor(true)
 	os.Exit(0)
-}
-
-func (c *CLI) initMenu() *Menu {
-	base := []string{
-		"0) Return",
-		"1) Change name",
-		"2) Select classic/endless mode",
-		"3) Toggle learning mode",
-		"4) Change difficulty",
-	}
-	name := []string{
-		"Enter new name: ",
-	}
-	confirmName := []string{
-		"0) Return",
-		"Enter: Confirm",
-	}
-	mode := []string{
-		"0) Return",
-		"1) Classic",
-		"2) Endless",
-	}
-	learning := []string{
-		"0) Return",
-		"1) On",
-		"2) Off",
-	}
-	difficulty := []string{
-		"Enter difficulty range [1-5]: ",
-	}
-	confirmDifficulty := []string{
-		"0) Return",
-		"Enter: confirm",
-	}
-	return &Menu{base, name, confirmName,
-		mode, learning, difficulty, confirmDifficulty}
 }
 
 func (c *CLI) printKeyMenu(submenu []string, property string) {
@@ -215,10 +136,10 @@ func (c *CLI) printKeyMenu(submenu []string, property string) {
 		}
 	} else if id < len(submenu) {
 		if property == "mode" {
-			c.player.DefaultMode = submenu[id][3:]
+			player.Mode = submenu[id][3:]
 		} else if property == "learning" {
 			val, _ := strconv.ParseBool(submenu[id][3:])
-			c.player.DefaultLearning = val
+			player.Learning = val
 		} else if property == "base" {
 			c.temp = (submenu[id])[3:]
 			paths := []string{"Base", "Name", "Mode", "Learning", "Difficulty"}
@@ -239,7 +160,7 @@ func (c *CLI) printConfirmMenu(submenu []string, property string) {
 	key := c.readKey()
 	if property == "name" {
 		if key == "\n" {
-			c.player.Name = c.temp
+			player.Name = c.temp
 		} else if key == "0" {
 			c.printMenu("Base")
 		} else {
@@ -247,7 +168,7 @@ func (c *CLI) printConfirmMenu(submenu []string, property string) {
 		}
 	} else if property == "difficulty" {
 		if key == "\n" {
-			c.player.DefaultDifficulty = c.temp
+			player.Difficulty = c.temp
 		} else if key == "0" {
 			c.printMenu("Base")
 		} else {
@@ -265,7 +186,7 @@ func (c *CLI) printTextMenu(submenu []string) {
 }
 
 func (c *CLI) printMenu(propName string) {
-	submenu := reflect.ValueOf(c.menu).Elem().
+	submenu := reflect.ValueOf(menu).
 		FieldByName(propName).Interface().([]string)
 	c.clear()
 	if c.temp == "EXIT" {

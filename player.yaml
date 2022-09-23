@@ -1,7 +1,7 @@
 name: robert
 theme: default
-defaultMode: Endless
-defaultLearning: false
-defaultDifficulty: 2-5
+mode: Endless
+learning: false
+difficulty: 2-5
 highscore: 90
 xp: 231

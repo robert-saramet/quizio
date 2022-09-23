@@ -6,21 +6,21 @@ import (
 )
 
 type Player struct {
-	Name              string `yaml:"name"`
-	Theme             string `yaml:"theme"`
-	DefaultMode       string `yaml:"defaultMode"`
-	DefaultLearning   bool   `yaml:"defaultLearning"`
-	DefaultDifficulty string `yaml:"defaultDifficulty"`
-	Highscore         int    `yaml:"highscore"`
-	XP                int    `yaml:"xp"`
+	Name       string `yaml:"name"`
+	Theme      string `yaml:"theme"`
+	Mode       string `yaml:"defaultMode"`
+	Learning   bool   `yaml:"defaultLearning"`
+	Difficulty string `yaml:"defaultDifficulty"`
+	Highscore  int    `yaml:"highscore"`
+	XP         int    `yaml:"xp"`
 }
 
 func (p *Player) make() *Player {
 	p.Name = ""
 	p.Theme = "default"
-	p.DefaultMode = ""
-	p.DefaultLearning = false
-	p.DefaultDifficulty = ""
+	p.Mode = ""
+	p.Learning = false
+	p.Difficulty = ""
 	p.Highscore = 0
 	p.XP = 0
 	return p
