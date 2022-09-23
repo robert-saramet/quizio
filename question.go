@@ -29,7 +29,7 @@ func (q *Questions) load() *Questions {
 func (q *Questions) restrain(topics []string, difficulty string) *Questions {
 	minDif, err := strconv.Atoi(difficulty[:1])
 	handle(err, "strconv.Atoi")
-	maxDif, err := strconv.Atoi(difficulty[len(difficulty)-1 : len(difficulty)])
+	maxDif, err := strconv.Atoi(difficulty[len(difficulty)-1:])
 	handle(err, "strconv.Atoi")
 	newQuestions := new(Questions)
 	for _, question := range *q {
