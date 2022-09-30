@@ -1,4 +1,4 @@
-module quizio
+module github.com/robert-saramet/quizio
 
 go 1.19
 
@@ -8,5 +8,3 @@ require (
 )
 
 require golang.org/x/sys v0.0.0-20200909081042-eff7692f9009 // indirect
-
-replace quizio => github.com/robert-saramet/quizio v0.4.0
