@@ -2,9 +2,11 @@ module quizio
 
 go 1.19
 
-require gopkg.in/yaml.v3 v3.0.1
-
 require (
-	github.com/pkg/term v1.1.0 // indirect
-	golang.org/x/sys v0.0.0-20200909081042-eff7692f9009 // indirect
+	github.com/pkg/term v1.1.0
+	gopkg.in/yaml.v3 v3.0.1
 )
+
+require golang.org/x/sys v0.0.0-20200909081042-eff7692f9009 // indirect
+
+replace quizio => github.com/robert-saramet/quizio v0.4.0
