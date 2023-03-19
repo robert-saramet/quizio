@@ -104,4 +104,54 @@
   text: Start of the American Revolutionary War
   answer: 1775
   difficulty: 3
+-
+  topic: literature
+  text: Famous book written by Jane Austen
+  answer: Pride and Prejudice
+  difficulty: 2
+-
+  topic: science
+  text: Element with the symbol 'O'
+  answer: Oxygen
+  difficulty: 1
+-
+  topic: music
+  text: Band known for the hit song "Bohemian Rhapsody"
+  answer: Queen
+  difficulty: 2
+-
+  topic: art
+  text: Famous painter who created the Mona Lisa
+  answer: Leonardo da Vinci
+  difficulty: 3
+-
+  topic: sports
+  text: Brazilian soccer player known as "The King"
+  answer: Pele
+  difficulty: 2
+-
+  topic: movies
+  text: Movie that won Best Picture at the 2020 Oscars
+  answer: Parasite
+  difficulty: 3
+-
+  topic: science
+  text: Unit for measuring electric current
+  answer: Ampere
+  difficulty: 3
+-
+  topic: literature
+  text: Author of "To Kill a Mockingbird"
+  answer: Harper Lee
+  difficulty: 2
+-
+  topic: music
+  text: Song that begins with "Yesterday, all my troubles seemed so far away"
+  answer: Yesterday
+  difficulty: 1
+-
+  topic: sports
+  text: American basketball player known as "The Black Mamba"
+  answer: Kobe Bryant
+  difficulty: 3
 ...
