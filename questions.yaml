@@ -44,4 +44,64 @@
   text: Number of bits in byte
   answer: 8
   difficulty: 1
+-
+  topic: math
+  text: 8 - 2
+  answer: 6
+  difficulty: 1
+-
+  topic: math
+  text: 4 / 2
+  answer: 2
+  difficulty: 1
+-
+  topic: compsci
+  text:  Number of bytes in kilobyte
+  answer: 1024
+  difficulty: 2
+-
+  topic: history
+  text: Start of World War II
+  answer: 1939
+  difficulty: 2
+-
+  topic: geography
+  text: Capital of India
+  answer: New Delhi
+  difficulty: 1
+-
+  topic: trivia
+  text: Greek for pure
+  answer: katharos
+  difficulty: 3
+-
+  topic: compsci
+  text: Language used for web sites
+  answer: HTML
+  difficulty: 1
+-
+  topic: math
+  text: 9 + 5
+  answer: 14
+  difficulty: 1
+-
+  topic: compsci
+  text: Language used for Android apps
+  answer: Java
+  difficulty: 2
+-
+  topic: geography
+  text: Highest mountain in Europe
+  answer: Mount Elbrus
+  difficulty: 2
+-
+  topic: trivia
+  text: Spanish for dog
+  answer: perro
+  difficulty: 2
+-
+  topic: history
+  text: Start of the American Revolutionary War
+  answer: 1775
+  difficulty: 3
 ...
