@@ -37,7 +37,7 @@ func (c *CLI) clear() {
 	cmd.Stdout = os.Stdout
 	err := cmd.Run()
 	handle(err, "cmd.Run")
-	fmt.Print("Press 'CTRL+C' to quit\n")
+	fmt.Print("Press 'CTRL+C' to quit at any time\n")
 }
 
 func (c *CLI) read() (input string) {
@@ -98,12 +98,13 @@ func (c *CLI) cursor(on bool) {
 	handle(err, "Fprintf")
 }
 
-func (c *CLI) newPlayer() *Player {
+func (c *CLI) newPlayer(username string) *Player {
 	newPlayer := player.make()
 	player = *newPlayer
+	player.Name = username
 	for {
 		c.printMenu("Base")
-		if player.Name != "" && player.Mode != "" && player.Difficulty != "" {
+		if player.Mode != "" && player.Difficulty != "" {
 			return &player
 		} else {
 			c.temp = "Please configure all settings"
