@@ -19,7 +19,7 @@ func initPlayer() {
 			fmt.Print(".")
 			time.Sleep(time.Second / 3)
 		}
-		player = *cli.newPlayer()
+		player = *cli.newPlayer(username)
 	} else {
 		fmt.Println("Player data found, loading...")
 		player = *player.load(filename)
@@ -95,8 +95,8 @@ func runGame() {
 	} else {
 		fmt.Println("Your highscore is", player.Highscore)
 	}
-	fmt.Println("Your total XP is", player.XP)
 	player.XP += cli.score
+	fmt.Println("Your total XP is", player.XP)
 	player.write(player.Name + ".yaml")
 	fmt.Println("Press any key to exit")
 	cli.readKey()
