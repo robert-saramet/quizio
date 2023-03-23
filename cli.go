@@ -58,8 +58,19 @@ func (c *CLI) read() (input string) {
 			input = c.read()
 			return
 		} else {
-			log.Fatal("Scanln failed: ", err)
+			handle(err, "Scanln()")
 		}
+	}
+	return
+}
+
+func (c *CLI) readSpaces() (input string) {
+	scanner := bufio.NewScanner(os.Stdin)
+	if scanner.Scan() {
+		input = scanner.Text()
+	}
+	if err := scanner.Err(); err != nil {
+		handle(err, "scanner.Text()")
 	}
 	return
 }

@@ -44,4 +44,164 @@
   text: Number of bits in byte
   answer: 8
   difficulty: 1
+-
+  topic: math
+  text: 8 - 2
+  answer: 6
+  difficulty: 1
+-
+  topic: math
+  text: 4 / 2
+  answer: 2
+  difficulty: 1
+-
+  topic: compsci
+  text:  Number of bytes in kilobyte
+  answer: 1024
+  difficulty: 2
+-
+  topic: history
+  text: Start of World War II
+  answer: 1939
+  difficulty: 2
+-
+  topic: geography
+  text: Capital of India
+  answer: New Delhi
+  difficulty: 1
+-
+  topic: trivia
+  text: Greek for pure
+  answer: katharos
+  difficulty: 3
+-
+  topic: compsci
+  text: Language used for web sites
+  answer: HTML
+  difficulty: 1
+-
+  topic: math
+  text: 9 + 5
+  answer: 14
+  difficulty: 1
+-
+  topic: compsci
+  text: Language used for Android apps
+  answer: Java
+  difficulty: 2
+-
+  topic: geography
+  text: Highest mountain in Europe
+  answer: Mount Elbrus
+  difficulty: 2
+-
+  topic: trivia
+  text: Spanish for dog
+  answer: perro
+  difficulty: 2
+-
+  topic: history
+  text: Start of the American Revolutionary War
+  answer: 1775
+  difficulty: 3
+-
+  topic: literature
+  text: Famous book written by Jane Austen
+  answer: Pride and Prejudice
+  difficulty: 2
+-
+  topic: science
+  text: Element with the symbol 'O'
+  answer: Oxygen
+  difficulty: 1
+-
+  topic: music
+  text: Band known for the hit song "Bohemian Rhapsody"
+  answer: Queen
+  difficulty: 2
+-
+  topic: art
+  text: Famous painter who created the Mona Lisa
+  answer: Leonardo da Vinci
+  difficulty: 3
+-
+  topic: sports
+  text: Brazilian soccer player known as "The King"
+  answer: Pele
+  difficulty: 2
+-
+  topic: movies
+  text: Movie that won Best Picture at the 2020 Oscars
+  answer: Parasite
+  difficulty: 3
+-
+  topic: science
+  text: Unit for measuring electric current
+  answer: Ampere
+  difficulty: 3
+-
+  topic: literature
+  text: Author of "To Kill a Mockingbird"
+  answer: Harper Lee
+  difficulty: 2
+-
+  topic: music
+  text: Song that begins with "Yesterday, all my troubles seemed so far away"
+  answer: Yesterday
+  difficulty: 1
+-
+  topic: sports
+  text: American basketball player known as "The Black Mamba"
+  answer: Kobe Bryant
+  difficulty: 3
+-
+  topic: science
+  text: The study of Earth's atmosphere
+  answer: Meteorology
+  difficulty: 2
+-
+  topic: literature
+  text: Shakespeare's famous tragedy about two star-crossed lovers
+  answer: Romeo and Juliet
+  difficulty: 1
+-
+  topic: movies
+  text: Movie that won Best Picture at the 2021 Oscars
+  answer: Nomadland
+  difficulty: 3
+-
+  topic: art
+  text: Dutch painter who created "The Night Watch"
+  answer: Rembrandt
+  difficulty: 3
+-
+  topic: sports
+  text: Jamaican sprinter known as "The fastest man alive"
+  answer: Usain Bolt
+  difficulty: 2
+-
+  topic: geography
+  text: Longest river in Africa
+  answer: Nile
+  difficulty: 1
+-
+  topic: music
+  text: Band known for the hit song "Stairway to Heaven"
+  answer: Led Zeppelin
+  difficulty: 2
+-
+  topic: science
+  text: Substance with the chemical formula H2O
+  answer: Water
+  difficulty: 1
+-
+  topic: literature
+  text: George Orwell's famous dystopian novel
+  answer: 1984
+  difficulty: 2
+-
+  topic: movies
+  text: Movie that won Best Picture at the 2019 Oscars
+  answer: Green Book
+  difficulty: 3
 ...

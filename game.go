@@ -106,7 +106,7 @@ func runClassicGame() {
 	lives := 5
 	for _, question := range questions {
 		fmt.Print(question.Text, ": ")
-		input := cli.read()
+		input := cli.readSpaces()
 		incorrectModif := ""
 		if !question.checkAnswer(input) {
 			incorrectModif = "in"
@@ -132,7 +132,7 @@ func runEndlessGame() {
 	questions = *questions.shuffle()
 	for _, question := range questions {
 		fmt.Print(question.Text, ": ")
-		input := cli.read()
+		input := cli.readSpaces()
 		incorrectModif := ""
 		if !question.checkAnswer(input) {
 			incorrectModif = "in"
