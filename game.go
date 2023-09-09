@@ -133,14 +133,14 @@ func runEndlessGame() {
 	for _, question := range questions {
 		fmt.Print(question.Text, ": ")
 		input := cli.readSpaces()
-		incorrectModif := ""
+		incorrectModifier := ""
 		if !question.checkAnswer(input) {
-			incorrectModif = "in"
+			incorrectModifier = "in"
 		} else {
 			cli.score += 10 * question.Difficulty
 		}
-		fmt.Print("Your answer is ", incorrectModif, "correct\n")
-		if incorrectModif == "in" && player.Learning {
+		fmt.Print("Your answer is ", incorrectModifier, "correct\n")
+		if incorrectModifier == "in" && player.Learning {
 			fmt.Println("Correct answer:", question.Answer)
 		}
 		cli.cursor(false)
